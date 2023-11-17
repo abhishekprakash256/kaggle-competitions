@@ -64,10 +64,9 @@ df_train["Transported"] = df_train['Transported'].astype(float)
 df_train["VIP_False"] = df_train['VIP_False'].astype(float)
 df_train["VIP_True"] = df_train['VIP_True'].astype(float)  
 
+df_train = df_train.dropna()
 
 num_null_values = df_train.isnull().sum()
 print(num_null_values)
-
-print(df_train.info())
 
 
