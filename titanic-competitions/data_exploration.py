@@ -24,12 +24,12 @@ df_train = pd.read_csv(FILE_PATH_train_c)
 df_test = pd.read_csv(FILE_PATH_test_c)
 
 
-print(df_train.info())
+#print(df_train.info())
 
 #print(df_train.corr())
 
 
-print(df_train.describe())
+#print(df_train.describe())
 
 """
 print(df_train["HomePlanet"].unique())
@@ -67,6 +67,11 @@ df_train["VIP_True"] = df_train['VIP_True'].astype(float)
 df_train = df_train.dropna()
 
 num_null_values = df_train.isnull().sum()
-print(num_null_values)
+#print(num_null_values)
+
+X = df_train.drop("Transported", axis= 1)
+
+y = df_train["Transported"]
+
 
 
