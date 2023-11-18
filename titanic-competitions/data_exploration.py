@@ -7,6 +7,9 @@ make the feture
 import pandas as pd 
 import numpy as np
 from sklearn.preprocessing import OneHotEncoder
+from sklearn.tree import DecisionTreeClassifier
+
+
 
 encoder = OneHotEncoder(sparse=False)
 #FILE PATH 
@@ -20,8 +23,13 @@ FILE_PATH_train_l = "/home/abhi/Datasets/titanic_dataset/train.csv"
 FILE_PATH_test_l = "/home/abhi/Datasets/titanic_dataset/test.csv"
 
 
-df_train = pd.read_csv(FILE_PATH_train_c)
-df_test = pd.read_csv(FILE_PATH_test_c)
+#df_train = pd.read_csv(FILE_PATH_train_c)
+#df_test = pd.read_csv(FILE_PATH_test_c)
+
+
+
+df_train = pd.read_csv(FILE_PATH_train_l)
+df_test = pd.read_csv(FILE_PATH_test_l)
 
 
 #print(df_train.info())
@@ -69,9 +77,14 @@ df_train = df_train.dropna()
 num_null_values = df_train.isnull().sum()
 #print(num_null_values)
 
-X = df_train.drop("Transported", axis= 1)
+X_train = df_train.drop("Transported", axis= 1)
 
-y = df_train["Transported"]
+y_train = df_train["Transported"]
 
 
+#make the model and fit the data 
+
+clf = DecisionTreeClassifier()
+
+clf = clf.fit(X_train,y_train)
 
