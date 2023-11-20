@@ -8,19 +8,24 @@ import pandas as pd
 import numpy as np
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.tree import DecisionTreeClassifier
-
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score, roc_curve, auc 
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.linear_model import LogisticRegression
+from xgboost.sklearn import XGBClassifier
 
 
 encoder = OneHotEncoder(sparse=False)
 #FILE PATH 
 #cloud 
 FILE_PATH_train_c = "/home/ubuntu/s3/titanic_dataset/train.csv"
-FILE_PATH_test_c = "/home/ubuntu/s3/titanic_dataset/test.csv"
+PREDICTION_DATA_c = "/home/ubuntu/s3/titanic_dataset/test.csv"
 
 
 #local
 FILE_PATH_train_l = "/home/abhi/Datasets/titanic_dataset/train.csv"
-FILE_PATH_test_l = "/home/abhi/Datasets/titanic_dataset/test.csv"
+PREDICTION_DATA_l = "/home/abhi/Datasets/titanic_dataset/test.csv"
 
 
 #df_train = pd.read_csv(FILE_PATH_train_c)
@@ -28,8 +33,8 @@ FILE_PATH_test_l = "/home/abhi/Datasets/titanic_dataset/test.csv"
 
 
 
-df_train = pd.read_csv(FILE_PATH_train_l)
-df_test = pd.read_csv(FILE_PATH_test_l)
+df_train = pd.read_csv(FILE_PATH_train_c)
+df_test = pd.read_csv(PREDICTION_DATA_c)
 
 
 #print(df_train.info())
@@ -64,6 +69,8 @@ print(num_null_values)
 
 columns = ["HomePlanet","CryoSleep", "Destination","Name", "Cabin", "PassengerId"]
 
+
+#--------------------train data---------------------------
 df_train = df_train.drop(columns, axis = 1)
 
 df_train = pd.get_dummies(df_train, columns = ["VIP"])
@@ -74,17 +81,73 @@ df_train["VIP_True"] = df_train['VIP_True'].astype(float)
 
 df_train = df_train.dropna()
 
-num_null_values = df_train.isnull().sum()
-#print(num_null_values)
+X = df_train.drop("Transported", axis= 1)
 
-X_train = df_train.drop("Transported", axis= 1)
+y = df_train["Transported"]
 
-y_train = df_train["Transported"]
 
+#train and test split 
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=42)
 
 #make the model and fit the data 
 
-clf = DecisionTreeClassifier()
+#-------------decision tree model------------------------
+dst = DecisionTreeClassifier()
 
-clf = clf.fit(X_train,y_train)
+
+dst.fit(X_train,y_train)
+
+y_pred_dst = dst.predict(X_test)
+
+
+cm_dst = confusion_matrix(y_test, y_pred_dst) 
+# Accuracy 
+accuracy_dst = accuracy_score(y_test, y_pred_dst) 
+# Precision 
+precision_dst = precision_score(y_test, y_pred_dst) 
+# Recall 
+recall_dst = recall_score(y_test, y_pred_dst) 
+# F1-Score 
+f1_dst = f1_score(y_test, y_pred_dst) 
+
+print("The CM score decison tree", cm_dst )
+
+print("the accuracy score decison tree", accuracy_dst)
+
+print("the precision score decsion tree", precision_dst)
+
+print("the recall score descision tree", recall_dst)
+
+print("f1 score decison tree", f1_dst)
+
+
+#-----------------------------random forest --------------------------
+
+rf = RandomForestClassifier()
+
+rf.fit(X_train,y_train)
+
+y_pred_rf = rf.predict(X_test)
+
+
+cm_rf = confusion_matrix(y_test, y_pred_rf) 
+# Accuracy 
+accuracy_rf = accuracy_score(y_test, y_pred_rf) 
+# Precision 
+precision_rf = precision_score(y_test, y_pred_rf) 
+# Recall 
+recall_rf = recall_score(y_test, y_pred_rf) 
+# F1-Score 
+f1_rf = f1_score(y_test, y_pred_rf) 
+
+print("The CM score random forest", cm_rf )
+
+print("the accuracy score random forest", accuracy_rf)
+
+print("the precision score random forest", precision_rf)
+
+print("the recall score random forest", recall_rf)
+
+print("f1 score random forest", f1_rf)
+
 
