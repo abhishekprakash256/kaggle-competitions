@@ -13,7 +13,7 @@ from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, r
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.linear_model import LogisticRegression
-from xgboost.sklearn import XGBClassifier
+#from xgboost.sklearn import XGBClassifier
 
 
 encoder = OneHotEncoder(sparse=False)
@@ -151,3 +151,86 @@ print("the recall score random forest", recall_rf)
 print("f1 score random forest", f1_rf)
 
 
+#------------------------ GradientBoostingClassifier----------------------------
+
+gbc = GradientBoostingClassifier()
+
+gbc.fit(X_train,y_train)
+
+y_pred_gbc = gbc.predict(X_test)
+
+
+cm_gbc = confusion_matrix(y_test, y_pred_gbc) 
+# Accuracy 
+accuracy_gbc = accuracy_score(y_test, y_pred_gbc) 
+# Precision 
+precision_gbc = precision_score(y_test, y_pred_gbc) 
+# Recall 
+recall_gbc = recall_score(y_test, y_pred_gbc) 
+# F1-Score 
+f1_gbc = f1_score(y_test, y_pred_gbc) 
+
+print("The CM score gbc", cm_gbc )
+
+print("the accuracy score gbc", accuracy_gbc)
+
+print("the precision score gbc", precision_gbc)
+
+print("the recall score gbc", recall_gbc)
+
+print("f1 score gbc", f1_gbc)
+
+
+#---------------------------LogisticRegression-------------------------------
+
+lg = LogisticRegression()
+
+lg.fit(X_train,y_train)
+
+y_pred_lg = lg.predict(X_test)
+
+
+cm_lg = confusion_matrix(y_test, y_pred_lg) 
+# Accuracy 
+accuracy_lg = accuracy_score(y_test, y_pred_lg) 
+# Precision 
+precision_lg = precision_score(y_test, y_pred_lg) 
+# Recall 
+recall_lg = recall_score(y_test, y_pred_lg) 
+# F1-Score 
+f1_lg = f1_score(y_test, y_pred_lg) 
+
+print("The CM score gbc", cm_lg )
+
+print("the accuracy score gbc", accuracy_lg)
+
+print("the precision score gbc", precision_lg)
+
+print("the recall score gbc", recall_lg)
+
+print("f1 score gbc", f1_lg)()
+
+gbc.fit(X_train,y_train)
+
+y_pred_gbc = gbc.predict(X_test)
+
+
+cm_gbc = confusion_matrix(y_test, y_pred_gbc) 
+# Accuracy 
+accuracy_gbc = accuracy_score(y_test, y_pred_gbc) 
+# Precision 
+precision_gbc = precision_score(y_test, y_pred_gbc) 
+# Recall 
+recall_gbc = recall_score(y_test, y_pred_gbc) 
+# F1-Score 
+f1_gbc = f1_score(y_test, y_pred_gbc) 
+
+print("The CM score gbc", cm_gbc )
+
+print("the accuracy score gbc", accuracy_gbc)
+
+print("the precision score gbc", precision_gbc)
+
+print("the recall score gbc", recall_gbc)
+
+print("f1 score gbc", f1_gbc)
