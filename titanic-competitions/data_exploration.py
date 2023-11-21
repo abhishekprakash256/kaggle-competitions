@@ -13,7 +13,7 @@ from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, r
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.linear_model import LogisticRegression
-#from xgboost.sklearn import XGBClassifier
+from xgboost.sklearn import XGBClassifier
 
 
 encoder = OneHotEncoder(sparse=False)
@@ -66,9 +66,9 @@ num_null_values = df_train.isnull().sum()
 print(num_null_values)
 """
 
+#columns = ["HomePlanet","CryoSleep", "Destination","Name", "Cabin", "PassengerId"]
 
 columns = ["HomePlanet","CryoSleep", "Destination","Name", "Cabin", "PassengerId"]
-
 
 #--------------------train data---------------------------
 df_train = df_train.drop(columns, axis = 1)
@@ -208,29 +208,36 @@ print("the precision score gbc", precision_lg)
 
 print("the recall score gbc", recall_lg)
 
-print("f1 score gbc", f1_lg)()
+print("f1 score gbc", f1_lg)
 
-gbc.fit(X_train,y_train)
+#----------------------using the xgboost ----------------
 
-y_pred_gbc = gbc.predict(X_test)
+xg = XGBClassifier()
+
+xg.fit(X_train,y_train)
+
+y_pred_xg = xg.predict(X_test)
 
 
-cm_gbc = confusion_matrix(y_test, y_pred_gbc) 
+cm_xg = confusion_matrix(y_test, y_pred_xg) 
 # Accuracy 
-accuracy_gbc = accuracy_score(y_test, y_pred_gbc) 
+accuracy_xg = accuracy_score(y_test, y_pred_xg) 
 # Precision 
-precision_gbc = precision_score(y_test, y_pred_gbc) 
+precision_xg = precision_score(y_test, y_pred_xg) 
 # Recall 
-recall_gbc = recall_score(y_test, y_pred_gbc) 
+recall_xg = recall_score(y_test, y_pred_xg) 
 # F1-Score 
-f1_gbc = f1_score(y_test, y_pred_gbc) 
+f1_xg = f1_score(y_test, y_pred_xg) 
 
-print("The CM score gbc", cm_gbc )
+print("The CM score xg", cm_xg )
 
-print("the accuracy score gbc", accuracy_gbc)
+print("the accuracy score xg", accuracy_xg)
 
-print("the precision score gbc", precision_gbc)
+print("the precision score xg", precision_xg)
 
-print("the recall score gbc", recall_gbc)
+print("the recall score xg", recall_xg)
 
-print("f1 score gbc", f1_gbc)
+print("f1 score xg", f1_xg)
+
+
+#----------------------------
