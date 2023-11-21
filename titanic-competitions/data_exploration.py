@@ -66,18 +66,40 @@ num_null_values = df_train.isnull().sum()
 print(num_null_values)
 """
 
+#---------data manipulation ---------
+
+"""
+print(df_train.info())
+
+
+print(df_train["CryoSleep"].unique())
+print(df_train["Destination"].unique())
+"""
+
+
+
+
+
+
+
+
+
+
+
+"""
 #columns = ["HomePlanet","CryoSleep", "Destination","Name", "Cabin", "PassengerId"]
 
-columns = ["HomePlanet","CryoSleep", "Destination","Name", "Cabin", "PassengerId"]
+columns = ["HomePlanet","Name", "Cabin", "PassengerId"]
 
 #--------------------train data---------------------------
 df_train = df_train.drop(columns, axis = 1)
 
-df_train = pd.get_dummies(df_train, columns = ["VIP"])
+df_train = pd.get_dummies(df_train, columns = ["VIP"]).astype(float)
+df_train = pd.get_dummies(df_train, columns = ["CryoSleep"]).astype(float)
+df_train = pd.get_dummies(df_train,columns = ["Destination"]).astype(float)
 
 df_train["Transported"] = df_train['Transported'].astype(float)  
-df_train["VIP_False"] = df_train['VIP_False'].astype(float)
-df_train["VIP_True"] = df_train['VIP_True'].astype(float)  
+
 
 df_train = df_train.dropna()
 
@@ -85,11 +107,12 @@ X = df_train.drop("Transported", axis= 1)
 
 y = df_train["Transported"]
 
-
 #train and test split 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=42)
 
+print(X_train.info())
 #make the model and fit the data 
+
 
 #-------------decision tree model------------------------
 dst = DecisionTreeClassifier()
@@ -240,4 +263,5 @@ print("the recall score xg", recall_xg)
 print("f1 score xg", f1_xg)
 
 
-#----------------------------
+#------------------------------------------------
+"""
