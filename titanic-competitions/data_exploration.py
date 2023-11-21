@@ -82,10 +82,6 @@ print(df_train["Destination"].unique())
 
 
 
-
-
-
-
 """
 #columns = ["HomePlanet","CryoSleep", "Destination","Name", "Cabin", "PassengerId"]
 
