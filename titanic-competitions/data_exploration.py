@@ -323,34 +323,35 @@ EPOCHS = 1000
 
 def train_and_test():
 
-	"""
-	The funcition to train and test the model 
-	"""
+    """
+    The funcition to train and test the model 
+    """
 
-	loss_fn = nn.BCEWithLogitsLoss()
+    loss_fn = nn.BCEWithLogitsLoss()
 
-	# Define the optimizer
-	optimizer = th.optim.SGD(params=model.parameters(), lr=0.1)
+    # Define the optimizer
+    optimizer = th.optim.SGD(params=model.parameters(), lr=0.1)
 
-	
-	#the loop for trainer
-	for epoch in range(EPOCHS):
-		model.train()
 
-		y_pred = model(X_train)
+    #the loop for trainer
+    for epoch in range(EPOCHS):
+        model.train()
 
-		loss = loss_fn(y_pred, y_train)
+        y_pred = model(X_train)
 
-		optimizer.zero_grad()
-		loss.backward()
-		optimizer.step()
+        loss = loss_fn(y_pred.view(-1), y_train)
 
-		model.eval()
-		with th.inference_mode():
-			test_pred = model(X_test)
-			test_loss = loss_fn(test_pred, y_test)
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
 
-		if epoch % 10 == 0:
-			print(f"Epoch {epoch}: Training Loss: {loss}, Test Loss: {test_loss}")
+        model.eval()
+        with th.inference_mode():
+            test_pred = model(X_test)
+            test_loss = loss_fn(test_pred.view(-1), y_test)
+
+        if epoch % 10 == 0:
+            print(f"Epoch {epoch}: Training Loss: {loss}, Test Loss: {test_loss}")
+
 
 train_and_test()
