@@ -15,6 +15,9 @@ from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.linear_model import LogisticRegression
 from xgboost.sklearn import XGBClassifier
 
+import torch as th 
+from torch import nn
+
 
 encoder = OneHotEncoder(sparse=False)
 #FILE PATH 
@@ -45,6 +48,7 @@ df_test = pd.read_csv(PREDICTION_DATA_c)
 #print(df_train.describe())
 
 """
+
 print(df_train["HomePlanet"].unique())
 print(df_train["CryoSleep"].unique())
 print(df_train["Cabin"].unique())
@@ -53,48 +57,59 @@ print(df_train["VIP"].unique())
 
 """
 
-#to drop the column 
-#homeplanet , Cryosleep, Destination
 
-
-"""
-n = df_train["RoomService"].unique()
-print(len(n))
-
-
-num_null_values = df_train.isnull().sum()
-print(num_null_values)
-"""
 
 #---------data manipulation ---------
 
 """
+
 print(df_train.info())
 
 
 print(df_train["CryoSleep"].unique())
 print(df_train["Destination"].unique())
+
+"""
+
+"""
+
+ 0   PassengerId   8693 non-null   object
+ 1   HomePlanet    8492 non-null   object
+ 2   CryoSleep     8476 non-null   object
+ 3   Cabin         8494 non-null   object
+ 4   Destination   8511 non-null   object
+ 5   Age           8514 non-null   float64
+ 6   VIP           8490 non-null   object
+ 7   RoomService   8512 non-null   float64
+ 8   FoodCourt     8510 non-null   float64
+ 9   ShoppingMall  8485 non-null   float64
+ 10  Spa           8510 non-null   float64
+ 11  VRDeck        8505 non-null   float64
+ 12  Name          8493 non-null   object
+ 13  Transported   8693 non-null   bool
+
 """
 
 
 
-
-
-
-
-"""
 #columns = ["HomePlanet","CryoSleep", "Destination","Name", "Cabin", "PassengerId"]
 
-columns = ["HomePlanet","Name", "Cabin", "PassengerId"]
+columns = ["Name","Cabin","PassengerId"]
 
 #--------------------train data---------------------------
 df_train = df_train.drop(columns, axis = 1)
 
-df_train = pd.get_dummies(df_train, columns = ["VIP"]).astype(float)
-df_train = pd.get_dummies(df_train, columns = ["CryoSleep"]).astype(float)
-df_train = pd.get_dummies(df_train,columns = ["Destination"]).astype(float)
+df_train = pd.get_dummies(df_train, columns = ["Destination"])
 
-df_train["Transported"] = df_train['Transported'].astype(float)  
+df_train = pd.get_dummies(df_train, columns = ["HomePlanet"])
+
+df_train = pd.get_dummies(df_train, columns = ["VIP"])
+
+df_train = pd.get_dummies(df_train, columns = ["CryoSleep"])
+
+#df_train = pd.get_dummies(df_train,columns = ["Destination"])
+
+df_train["Transported"] = df_train['Transported']
 
 
 df_train = df_train.dropna()
@@ -104,12 +119,12 @@ X = df_train.drop("Transported", axis= 1)
 y = df_train["Transported"]
 
 #train and test split 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
 
 print(X_train.info())
 #make the model and fit the data 
 
-
+"""
 #-------------decision tree model------------------------
 dst = DecisionTreeClassifier()
 
@@ -172,7 +187,7 @@ print("f1 score random forest", f1_rf)
 
 #------------------------ GradientBoostingClassifier----------------------------
 
-gbc = GradientBoostingClassifier()
+gbc = GradientBoostingClassifier(n_estimators=50, learning_rate= 0.1,random_state=0)
 
 gbc.fit(X_train,y_train)
 
@@ -258,6 +273,52 @@ print("the recall score xg", recall_xg)
 
 print("f1 score xg", f1_xg)
 
-
-#------------------------------------------------
 """
+#------------------------------------------------
+
+
+#shaping the input data 
+
+X_train, X_test, y_train, y_test = X_train.values ,X_test.values,y_train.values,y_test.values
+
+X_train, X_test, y_train, y_test = X_train.astype(float) ,X_test.astype(float) ,y_train.astype(float) ,y_test.astype(float)
+
+
+print(X_train[0])
+print(y_train[0])
+
+
+class SimpleClassifier(nn.Module):
+    def __init__(self, input_size, hidden_size, output_size):
+        super(SimpleClassifier, self).__init__()
+        self.fc1 = nn.Linear(input_size, hidden_size)
+        self.relu = nn.ReLU()
+        self.fc2 = nn.Linear(hidden_size, output_size)
+        self.sigmoid = nn.Sigmoid()  # Sigmoid activation for binary classification
+
+    def forward(self, x):
+        out = self.fc1(x)
+        out = self.relu(out)
+        out = self.fc2(out)
+        out = self.sigmoid(out)
+        return out
+
+
+input_size = 16  # Replace with your input feature size
+hidden_size = 64  # Number of neurons in the hidden layer
+output_size = 1  # 1 for binary classification (0 or 1)
+
+# Create an instance of the SimpleClassifier
+model = SimpleClassifier(input_size, hidden_size, output_size)
+
+# Print the model architecture
+
+
+X_train, X_test, y_train, y_test = th.from_numpy(X_train) , th.from_numpy(X_test), th.from_numpy(y_train) , th.from_numpy(y_test) 
+
+X_train, X_test, y_train, y_test = X_train.float(), X_test, y_train, y_test
+
+y_pred = model(X_train[0])
+
+print(y_train[0])
+print(y_pred)
