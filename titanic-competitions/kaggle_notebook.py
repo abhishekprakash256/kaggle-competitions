@@ -7,6 +7,7 @@ import pandas as pd
 import sklearn
 import matplotlib.pyplot as plt
 import seaborn as sns
+from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score, roc_curve, auc 
 
 
 #cloud
