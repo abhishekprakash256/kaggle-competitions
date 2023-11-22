@@ -57,8 +57,6 @@ print(df_train["VIP"].unique())
 
 """
 
-
-
 #---------data manipulation ---------
 
 """
