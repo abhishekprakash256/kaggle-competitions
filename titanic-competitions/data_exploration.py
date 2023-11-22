@@ -316,9 +316,41 @@ model = SimpleClassifier(input_size, hidden_size, output_size)
 
 X_train, X_test, y_train, y_test = th.from_numpy(X_train) , th.from_numpy(X_test), th.from_numpy(y_train) , th.from_numpy(y_test) 
 
-X_train, X_test, y_train, y_test = X_train.float(), X_test, y_train, y_test
+X_train, X_test, y_train, y_test = X_train.float(), X_test.float(), y_train.float(), y_test.float()
 
-y_pred = model(X_train[0])
 
-print(y_train[0])
-print(y_pred)
+EPOCHS = 1000
+
+def train_and_test():
+
+	"""
+	The funcition to train and test the model 
+	"""
+
+	loss_fn = nn.BCEWithLogitsLoss()
+
+	# Define the optimizer
+	optimizer = th.optim.SGD(params=model.parameters(), lr=0.1)
+
+	
+	#the loop for trainer
+	for epoch in range(EPOCHS):
+		model.train()
+
+		y_pred = model(X_train)
+
+		loss = loss_fn(y_pred, y_train)
+
+		optimizer.zero_grad()
+		loss.backward()
+		optimizer.step()
+
+		model.eval()
+		with th.inference_mode():
+			test_pred = model(X_test)
+			test_loss = loss_fn(test_pred, y_test)
+
+		if epoch % 10 == 0:
+			print(f"Epoch {epoch}: Training Loss: {loss}, Test Loss: {test_loss}")
+
+train_and_test()
