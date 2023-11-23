@@ -6,8 +6,11 @@ To habdle the data and prepare the data for the model to learn
 import numpy as np
 import pandas as pd
 import sklearn
+import matplotlib
 import matplotlib.pyplot as plt
 import seaborn as sns
+import sys
+
 
 
 
@@ -24,13 +27,30 @@ FILE_PATH_train_l = "/home/abhi/Datasets/titanic_dataset/train.csv"
 FILE_PATH_test_l = "/home/abhi/Datasets/titanic_dataset/test.csv"
 FILE_PATH_SUB_l = "/home/abhi/Datasets/titanic_dataset/sample_submission.csv"
 
+INFO_FILE_NAME = "data_info.txt"
+
 
 
 
 class Data():
+
     def __init__(self):
         self.train = None
         self.test = None
+
+    def file_writer(self,info,file_name):
+        """
+        Function to help write in the file
+        """
+        with open(file_name, "w") as file:
+            
+            original_stdout = sys.stdout
+            sys.stdout = file
+
+            print(info)
+
+            sys.stdout = original_stdout
+
 
     def read_data(self,train_data_path,test_data_path):
         """
@@ -59,7 +79,24 @@ class Data():
 
         plt.subplots(figsize=(12,9))
         sns.heatmap(corrmat,vmax=0.9,square=True)
+
+        print(type(self.train.info()))
+
+        plt.savefig('corr_mat.png')
+
+        #get the info of the dataset
+
+        info_string = self.train.info()
+
+        self.file_writer(info_string,INFO_FILE_NAME)
     
+
+
+
+
+
+
+
 
 
 
