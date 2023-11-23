@@ -19,23 +19,27 @@ FILE_PATH_train_l = "/home/abhi/Datasets/titanic_dataset/train.csv"
 PREDICTION_DATA_l = "/home/abhi/Datasets/titanic_dataset/test.csv"
 
 
-train = pd.read_csv(FILE_PATH_train_c)
-test = pd.read_csv(PREDICTION_DATA_c)
+train = pd.read_csv(FILE_PATH_train_l)
+test = pd.read_csv(PREDICTION_DATA_l)
 
+
+print("train data",train.shape)
+print(test.shape)
 
 #drop the passangerID column 
 train.drop('PassengerId',axis = 1,inplace = True)
 test.drop('PassengerId',axis = 1 , inplace = True)
 
 
-ntrain = train.shape[0]
-ntest = test.shape[0]
-
 #combined trained and test
 ntrain = train.shape[0]
 ntest = test.shape[0]
 y_train = train.Transported.values
 all_data = pd.concat([train.drop('Transported',axis = 1),test],axis=0).reset_index(drop = True)
+
+print("y_train",y_train.shape)
+
+print(all_data.shape)
 
 numeric_cols = all_data.select_dtypes(include='number')
 
@@ -72,7 +76,6 @@ for c in cols:
 
 
 
-
 #LabelEncoder for not number data column
 from sklearn.preprocessing import LabelEncoder
 cols = ('HomePlanet','CryoSleep','Cabin','Destination','VIP')
@@ -86,7 +89,13 @@ for c in cols:
 train = all_data[:ntrain].drop('Name',axis=1)
 test = all_data[ntrain:].drop('Name',axis=1)
 
+print(train.shape)
+print(test.shape)
 
+print(test.info())
+
+
+"""
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 
@@ -96,6 +105,14 @@ rf_classifier = RandomForestClassifier()
 rf_classifier.fit(train, y_train)
 
 predictions = rf_classifier.predict(test)
+
+print(type(y_train))
+print(type(predictions))
+
+print(y_train.shape)
+
+print(predictions.shape)
+
 
 
 cm_rf = confusion_matrix(y_train, predictions) 
@@ -117,3 +134,5 @@ print("the precision score decsion tree", precision_rf)
 print("the recall score descision tree", recall_rf)
 
 print("f1 score decison tree", f1_rf)
+
+"""
