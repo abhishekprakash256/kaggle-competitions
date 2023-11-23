@@ -37,14 +37,35 @@ class Data():
         The function to read the data 
         """
 
-        train = pd.read_csv(train_data_path)
-        test = pd.read_csv(test_data_path)
+        self.train = pd.read_csv(train_data_path)
+        self.test = pd.read_csv(test_data_path)
 
+    def data_visualization(self):
+        """
+        The function to visualize the data 
+        """
+        col_lst = []
 
+        #find the values that are int 
+
+        result = self.train.select_dtypes(include=[float])
+
+        for col in result.columns:
+            col_lst.append(col)
+
+        #make the correlation matrix
+
+        corrmat = self.train[col_lst].corr()
+
+        plt.subplots(figsize=(12,9))
+        sns.heatmap(corrmat,vmax=0.9,square=True)
+    
 
 
 
 
 if __name__ == "__main__":
     data = Data()
+    data.read_data(FILE_PATH_train_l,FILE_PATH_test_l)
+    data.data_visualization()
 
