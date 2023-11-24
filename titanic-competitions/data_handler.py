@@ -71,12 +71,17 @@ class Data():
 
         #make the correlation matrix
 
+        #plot 1 
+
         corrmat = self.train[col_lst].corr()
 
-        plt.subplots(figsize=(12,9))
+        plt.figure(figsize=(12, 8))
+
         sns.heatmap(corrmat,vmax=0.9,square=True)
 
         plt.savefig('corr_mat.png')
+
+        plt.clf()
 
         #get the info of the dataset
 
@@ -97,7 +102,26 @@ class Data():
         head_string = self.train.head().to_string()
 
         self.info_to_text(head_string,HEAD_FILE)
-        
+
+        #plot the data in graphs and save 
+
+        #plot 2 
+
+        sns.scatterplot(x="Age", y="Transported", hue="VIP", data=self.train, marker="o", color="b")
+
+        plt.savefig('data_plotting.png')
+
+        plt.clf()
+
+        #plot 3 
+
+        sns.pairplot(data = self.train, hue='Transported', palette='viridis')
+
+        plt.savefig('pair_plotting.png')
+
+        plt.clf()
+
+    
             
 
 
