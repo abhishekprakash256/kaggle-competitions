@@ -121,7 +121,14 @@ class Data():
 
         plt.clf()
 
-    
+
+    def data_prep(self):
+        """
+        the function to prep the data
+        """
+        
+
+
             
 
 
