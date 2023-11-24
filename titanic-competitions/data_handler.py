@@ -126,8 +126,7 @@ class Data():
         """
         the function to prep the data
         """
-        
-
+        pass
 
             
 
