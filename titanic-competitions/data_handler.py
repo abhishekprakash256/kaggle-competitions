@@ -96,7 +96,9 @@ class Data():
         #get the head of the data
         head_string = self.train.head().to_string()
 
-        self.info_to_text(head_string,HEAD_FILE)       
+        self.info_to_text(head_string,HEAD_FILE)
+        
+            
 
 
 
