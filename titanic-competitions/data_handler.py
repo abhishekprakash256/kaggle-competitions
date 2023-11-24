@@ -9,7 +9,8 @@ import sklearn
 import matplotlib
 import matplotlib.pyplot as plt
 import seaborn as sns
-import sys
+import io
+from contextlib import redirect_stdout
 
 
 
@@ -28,8 +29,8 @@ FILE_PATH_test_l = "/home/abhi/Datasets/titanic_dataset/test.csv"
 FILE_PATH_SUB_l = "/home/abhi/Datasets/titanic_dataset/sample_submission.csv"
 
 INFO_FILE_NAME = "data_info.txt"
-
-
+DESCRIBE_FILE_NAME = "data_describe.txt"
+HEAD_FILE = "head_info.txt"
 
 
 class Data():
@@ -38,18 +39,13 @@ class Data():
         self.train = None
         self.test = None
 
-    def file_writer(self,info,file_name):
+    def info_to_text(self,info,file_name):
         """
         Function to help write in the file
         """
         with open(file_name, "w") as file:
-            
-            original_stdout = sys.stdout
-            sys.stdout = file
 
-            print(info)
-
-            sys.stdout = original_stdout
+            file.write(info)
 
 
     def read_data(self,train_data_path,test_data_path):
@@ -80,16 +76,32 @@ class Data():
         plt.subplots(figsize=(12,9))
         sns.heatmap(corrmat,vmax=0.9,square=True)
 
-        print(type(self.train.info()))
-
         plt.savefig('corr_mat.png')
 
         #get the info of the dataset
 
-        info_string = self.train.info()
+        buffer = io.StringIO()
+        with redirect_stdout(buffer):
+            self.train.info()
 
-        self.file_writer(info_string,INFO_FILE_NAME)
-    
+        info_string = buffer.getvalue()
+
+        self.info_to_text(info_string,INFO_FILE_NAME)
+
+        #get the decribe of the dataset 
+        describe_string = self.train.describe().to_string()
+
+        self.info_to_text(describe_string,DESCRIBE_FILE_NAME)
+
+        #get the head of the data
+        head_string = self.train.head().to_string()
+
+        self.info_to_text(head_string,HEAD_FILE)       
+
+
+
+
+
 
 
 
