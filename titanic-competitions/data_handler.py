@@ -132,19 +132,6 @@ class Data():
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 if __name__ == "__main__":
     data = Data()
     data.read_data(FILE_PATH_train_l,FILE_PATH_test_l)
