@@ -37,7 +37,7 @@ PREDICTION_DATA_l = "/home/abhi/Datasets/titanic_dataset/test.csv"
 
 
 df_train = pd.read_csv(FILE_PATH_train_c)
-df_test = pd.read_csv(PREDICTION_DATA_c)
+df_predtion = pd.read_csv(PREDICTION_DATA_c)
 
 
 #print(df_train.info())
