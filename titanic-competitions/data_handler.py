@@ -24,10 +24,17 @@ FILE_PATH_test_c = "/home/ubuntu/s3/titanic_dataset/test.csv"
 FILE_PATH_SUB_c = "/home/ubuntu/s3/titanic_dataset/sample_submission.csv"
 
 
-#local
-FILE_PATH_train_l = "/home/abhi/Datasets/titanic_dataset/train.csv"
-FILE_PATH_test_l = "/home/abhi/Datasets/titanic_dataset/test.csv"
-FILE_PATH_SUB_l = "/home/abhi/Datasets/titanic_dataset/sample_submission.csv"
+#local linux
+L_FILE_PATH_train_l = "/home/abhi/Datasets/titanic_dataset/train.csv"
+L_FILE_PATH_test_l = "/home/abhi/Datasets/titanic_dataset/test.csv"
+L_FILE_PATH_SUB_l = "/home/abhi/Datasets/titanic_dataset/sample_submission.csv"
+
+
+#local mac
+M_FILE_PATH_train_l = "/home/abhi/Datasets/titanic_dataset/train.csv"
+M_FILE_PATH_test_l = "/home/abhi/Datasets/titanic_dataset/test.csv"
+M_FILE_PATH_SUB_l = "/home/abhi/Datasets/titanic_dataset/sample_submission.csv"
+
 
 INFO_FILE_NAME = "data_info.txt"
 DESCRIBE_FILE_NAME = "data_describe.txt"
