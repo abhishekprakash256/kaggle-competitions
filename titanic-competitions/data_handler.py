@@ -139,7 +139,7 @@ class Data():
 
 		columns = ["Name","Cabin","PassengerId"]
 
-		df
+		
 
 
 		
