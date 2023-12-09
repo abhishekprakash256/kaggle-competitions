@@ -9,6 +9,7 @@ import sklearn
 import matplotlib
 import matplotlib.pyplot as plt
 import seaborn as sns
+from sklearn.preprocessing import LabelEncoder
 import io
 from contextlib import redirect_stdout
 
@@ -39,7 +40,13 @@ class Data():
 	def __init__(self):
 		self.train = None
 		self.test = None
-		self.combine_data = None
+		#self.combine_data = None
+		self.X = None 
+		self.y = None
+		self.train_X = None
+		self.train_y = None
+		self.test_X = None
+		self.test_y = None
 
 	def info_to_text(self,info,file_name):
 		"""
@@ -137,12 +144,50 @@ class Data():
 
 		#list the columns to drop 
 
-		columns = ["Name","Cabin","PassengerId"]
+		columns_drop = ["Name","PassengerId"]
+		test_col = ["Transported"]
 
-		
+		#make the train and test data 
+		self.train_X = self.train.drop("Transported", axis = 1)
+		self.train_y = self.train["Transported"]
 
 
-		
+		#drop the columns not with non necessary features
+		self.train_X = self.train_X.drop(columns= columns_drop, axis=1)
+
+		#filing the missing values 
+		self.train_X['RoomService'] = self.train_X.groupby('VIP')['RoomService'].transform(lambda x:x.fillna(x.mean()))
+
+
+		#Destination, HomePlanet, Cabin, CryoSleep,VIP missing value filled with mode()
+		cols = ['Destination','HomePlanet','Cabin','CryoSleep','VIP']
+		for c in cols:
+			self.train_X[c] = self.train_X[c].fillna(self.train_X[c].mode()[0])
+
+
+		#Age missing value fill with mean
+		self.train_X['Age'] = self.train_X['Age'].fillna(self.train_X['Age'].mean())
+
+		self.train_X['RoomService'] = self.train_X.groupby('VIP')['RoomService'].transform(lambda x:x.fillna(x.mean()))
+
+		cols = ['VRDeck','FoodCourt','ShoppingMall','Spa']
+		for c in cols:
+			self.train_X[c] = self.train_X.groupby('VIP')[c].transform(lambda x:x.fillna(x.mean()))
+
+
+		#filling the data with one hot encoder		
+		cols = ('HomePlanet','CryoSleep','Cabin','Destination','VIP')
+		for c in cols:
+			lbl = LabelEncoder() 
+			lbl.fit(list(self.train_X[c].values))   
+			self.train_X[c] = lbl.transform(list(self.train_X[c].values))
+
+
+		print(self.train_X.info())
+
+		print(self.train_y.info())
+
+
 
 
 
