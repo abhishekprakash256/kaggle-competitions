@@ -54,12 +54,6 @@ HEAD_FILE = "head_info.txt"
 
 
 
-data = Data()
-data.read_data(M_FILE_PATH_train_l,M_FILE_PATH_test_l)
-data.data_prep()
-data.train_test_divider()
-
-
 class Models():
 
     def __init__(self):
@@ -88,36 +82,78 @@ class Models():
 
         self.lg = LogisticRegression()
 
+    
+
+def train_test():
+    """
+    The function to train and test the model performance 
+    """
+
+    #load the datasets
+    data = Data()
+    data.read_data(M_FILE_PATH_train_l,M_FILE_PATH_test_l)
+    data.data_prep()
+    data.train_test_divider()
+
+    #make the models
+    models = Models()
+    models.make_models()
+
+
+    models.dst = DecisionTreeClassifier()
+
+    models.dst.fit(data.train_X,data.train_y)
+    y_pred_dst = models.dst.predict(data.test_X)
+
+    cm_dst = confusion_matrix(data.test_y, y_pred_dst) 
+    # Accuracy 
+    accuracy_dst = accuracy_score(data.test_y, y_pred_dst) 
+    # Precision 
+    precision_dst = precision_score(data.test_y, y_pred_dst) 
+    # Recall 
+    recall_dst = recall_score(data.test_y, y_pred_dst) 
+    # F1-Score 
+    f1_dst = f1_score(data.test_y, y_pred_dst) 
+
+    print("The CM score decison tree", cm_dst )
+
+    print("the accuracy score decison tree", accuracy_dst)
+
+    print("the precision score decsion tree", precision_dst)
+
+    print("the recall score descision tree", recall_dst)
+
+    print("f1 score decison tree", f1_dst)
 
 
 
+    models.rf.fit(data.train_X,data.train_y)
+
+    """
+    y_pred_rf = models.rf.predict(X_test)
 
 
+    cm_rf = confusion_matrix(y_test, y_pred_rf) 
+    # Accuracy 
+    accuracy_rf = accuracy_score(y_test, y_pred_rf) 
+    # Precision 
+    precision_rf = precision_score(y_test, y_pred_rf) 
+    # Recall 
+    recall_rf = recall_score(y_test, y_pred_rf) 
+    # F1-Score 
+    f1_rf = f1_score(y_test, y_pred_rf) 
 
-dst = DecisionTreeClassifier()
+    print("The CM score random forest", cm_rf )
 
+    print("the accuracy score random forest", accuracy_rf)
 
-dst.fit(data.train_X,data.train_y)
+    print("the precision score random forest", precision_rf)
 
-y_pred_dst = dst.predict(data.test_X)
+    print("the recall score random forest", recall_rf)
 
+    print("f1 score random forest", f1_rf)
 
-cm_dst = confusion_matrix(data.test_y, y_pred_dst) 
-# Accuracy 
-accuracy_dst = accuracy_score(data.test_y, y_pred_dst) 
-# Precision 
-precision_dst = precision_score(data.test_y, y_pred_dst) 
-# Recall 
-recall_dst = recall_score(data.test_y, y_pred_dst) 
-# F1-Score 
-f1_dst = f1_score(data.test_y, y_pred_dst) 
+    """
+if __name__== "__main__":
 
-print("The CM score decison tree", cm_dst )
-
-print("the accuracy score decison tree", accuracy_dst)
-
-print("the precision score decsion tree", precision_dst)
-
-print("the recall score descision tree", recall_dst)
-
-print("f1 score decison tree", f1_dst)
+    train_test()

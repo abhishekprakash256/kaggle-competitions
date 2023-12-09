@@ -197,22 +197,3 @@ class Data():
 		"""
 
 		self.train_X, self.test_X, self.train_y, self.test_y = train_test_split(self.train_X, self.train_y, test_size=0.3, random_state=42)
-
-
-
-
-
-
-
-
-"""
-if __name__ == "__main__":
-	data = Data()
-
-	#pass the file path here
-	data.read_data(M_FILE_PATH_train_l,M_FILE_PATH_test_l)
-	#data.data_visualization()
-	data.data_prep()
-	data.train_test_divider()
-
-"""
