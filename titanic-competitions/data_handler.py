@@ -1,5 +1,5 @@
 """
-To habdle the data and prepare the data for the model to learn 
+To handle the data and prepare the data for the model to learn 
 """
 
 #imports 
@@ -31,9 +31,9 @@ L_FILE_PATH_SUB_l = "/home/abhi/Datasets/titanic_dataset/sample_submission.csv"
 
 
 #local mac
-M_FILE_PATH_train_l = "/home/abhi/Datasets/titanic_dataset/train.csv"
-M_FILE_PATH_test_l = "/home/abhi/Datasets/titanic_dataset/test.csv"
-M_FILE_PATH_SUB_l = "/home/abhi/Datasets/titanic_dataset/sample_submission.csv"
+M_FILE_PATH_train_l = "/Users/abhi/Datasets/titanic_dataset/train.csv"
+M_FILE_PATH_test_l = "/Users/abhi/Datasets/titanic_dataset/test.csv"
+M_FILE_PATH_SUB_l = "/Users/abhi/Datasets/titanic_dataset/sample_submission.csv"
 
 
 INFO_FILE_NAME = "data_info.txt"
@@ -190,11 +190,6 @@ class Data():
 			self.train_X[c] = lbl.transform(list(self.train_X[c].values))
 
 
-		print(self.train_X.info())
-
-		print(self.train_y.info())
-
-
 
 
 
@@ -203,7 +198,9 @@ class Data():
 
 if __name__ == "__main__":
 	data = Data()
-	data.read_data(FILE_PATH_train_l,FILE_PATH_test_l)
+
+	#pass the file path here
+	data.read_data(M_FILE_PATH_train_l,M_FILE_PATH_test_l)
 	#data.data_visualization()
 	data.data_prep()
 
