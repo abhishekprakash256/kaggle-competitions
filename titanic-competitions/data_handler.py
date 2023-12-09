@@ -10,6 +10,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.preprocessing import LabelEncoder
+from sklearn.model_selection import train_test_split
 import io
 from contextlib import redirect_stdout
 
@@ -189,6 +190,22 @@ class Data():
 			lbl.fit(list(self.train_X[c].values))   
 			self.train_X[c] = lbl.transform(list(self.train_X[c].values))
 
+		
+	def train_test_divider(self):
+		"""
+		The train and test split of the dataset
+		"""
+
+		self.train_X, self.test_X, self.train_y, self.test_y = train_test_split(self.train_X, self.train_y, test_size=0.3, random_state=42)
+
+		print(self.train_X)
+		print(self.train_y)
+
+		print(self.train_y)
+		print(self.test_y)
+
+
+
 
 
 
@@ -203,5 +220,6 @@ if __name__ == "__main__":
 	data.read_data(M_FILE_PATH_train_l,M_FILE_PATH_test_l)
 	#data.data_visualization()
 	data.data_prep()
+	data.train_test_divider()
 
 

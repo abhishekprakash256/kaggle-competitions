@@ -27,6 +27,8 @@ from data_handler import *
 
 
 
+
+
 #File paths 
 
 #cloud
@@ -51,6 +53,14 @@ INFO_FILE_NAME = "data_info.txt"
 DESCRIBE_FILE_NAME = "data_describe.txt"
 NULL_COUNTS_FILE = "null_count.txt"
 HEAD_FILE = "head_info.txt"
+
+
+
+data = Data()
+data.read_data(M_FILE_PATH_train_l,M_FILE_PATH_test_l)
+#data.data_visualization()
+data.data_prep()
+
 
 
 
