@@ -198,11 +198,6 @@ class Data():
 
 		self.train_X, self.test_X, self.train_y, self.test_y = train_test_split(self.train_X, self.train_y, test_size=0.3, random_state=42)
 
-		print(self.train_X)
-		print(self.train_y)
-
-		print(self.train_y)
-		print(self.test_y)
 
 
 
@@ -210,9 +205,7 @@ class Data():
 
 
 
-
-
-
+"""
 if __name__ == "__main__":
 	data = Data()
 
@@ -222,4 +215,4 @@ if __name__ == "__main__":
 	data.data_prep()
 	data.train_test_divider()
 
-
+"""

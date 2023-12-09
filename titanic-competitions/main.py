@@ -26,11 +26,7 @@ from data_handler import *
 
 
 
-
-
-
 #File paths 
-
 #cloud
 FILE_PATH_train_c = "/home/ubuntu/s3/titanic_dataset/train.csv"
 FILE_PATH_test_c = "/home/ubuntu/s3/titanic_dataset/test.csv"
@@ -48,19 +44,80 @@ M_FILE_PATH_train_l = "/Users/abhi/Datasets/titanic_dataset/train.csv"
 M_FILE_PATH_test_l = "/Users/abhi/Datasets/titanic_dataset/test.csv"
 M_FILE_PATH_SUB_l = "/Users/abhi/Datasets/titanic_dataset/sample_submission.csv"
 
-
+"""
 INFO_FILE_NAME = "data_info.txt"
 DESCRIBE_FILE_NAME = "data_describe.txt"
 NULL_COUNTS_FILE = "null_count.txt"
 HEAD_FILE = "head_info.txt"
+"""
+
 
 
 
 data = Data()
 data.read_data(M_FILE_PATH_train_l,M_FILE_PATH_test_l)
-#data.data_visualization()
 data.data_prep()
+data.train_test_divider()
+
+
+class Models():
+
+    def __init__(self):
+        """
+        make the model instances as objects 
+        """
+        self.dst = None
+        self.rf = None
+        self.gbc = None
+        self.lg = None
+    
+    def make_models(self):
+        """
+        The function to make the models
+        """
+        #dst model
+        self.dst = DecisionTreeClassifier()
+
+        #rf model
+        self.rf = RandomForestClassifier()
+
+        #gbc model
+        self.gbc = GradientBoostingClassifier(n_estimators=50, learning_rate= 0.1,random_state=0)
+
+        #logistic regression 
+
+        self.lg = LogisticRegression()
 
 
 
 
+
+
+
+dst = DecisionTreeClassifier()
+
+
+dst.fit(data.train_X,data.train_y)
+
+y_pred_dst = dst.predict(data.test_X)
+
+
+cm_dst = confusion_matrix(data.test_y, y_pred_dst) 
+# Accuracy 
+accuracy_dst = accuracy_score(data.test_y, y_pred_dst) 
+# Precision 
+precision_dst = precision_score(data.test_y, y_pred_dst) 
+# Recall 
+recall_dst = recall_score(data.test_y, y_pred_dst) 
+# F1-Score 
+f1_dst = f1_score(data.test_y, y_pred_dst) 
+
+print("The CM score decison tree", cm_dst )
+
+print("the accuracy score decison tree", accuracy_dst)
+
+print("the precision score decsion tree", precision_dst)
+
+print("the recall score descision tree", recall_dst)
+
+print("f1 score decison tree", f1_dst)
