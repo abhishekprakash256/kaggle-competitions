@@ -129,19 +129,17 @@ def train_test():
 
     models.rf.fit(data.train_X,data.train_y)
 
-    """
-    y_pred_rf = models.rf.predict(X_test)
+    y_pred_rf = models.rf.predict(data.test_X)
 
-
-    cm_rf = confusion_matrix(y_test, y_pred_rf) 
+    cm_rf = confusion_matrix(data.test_y, y_pred_rf) 
     # Accuracy 
-    accuracy_rf = accuracy_score(y_test, y_pred_rf) 
+    accuracy_rf = accuracy_score(data.test_y, y_pred_rf) 
     # Precision 
-    precision_rf = precision_score(y_test, y_pred_rf) 
+    precision_rf = precision_score(data.test_y, y_pred_rf) 
     # Recall 
-    recall_rf = recall_score(y_test, y_pred_rf) 
+    recall_rf = recall_score(data.test_y, y_pred_rf) 
     # F1-Score 
-    f1_rf = f1_score(y_test, y_pred_rf) 
+    f1_rf = f1_score(data.test_y, y_pred_rf) 
 
     print("The CM score random forest", cm_rf )
 
@@ -153,7 +151,62 @@ def train_test():
 
     print("f1 score random forest", f1_rf)
 
-    """
+
+    models.gbc.fit(data.train_X,data.train_y)
+
+    y_pred_gbc = models.gbc.predict(data.test_X)
+
+
+    cm_gbc = confusion_matrix(data.test_y, y_pred_gbc) 
+    # Accuracy 
+    accuracy_gbc = accuracy_score(data.test_y, y_pred_gbc) 
+    # Precision 
+    precision_gbc = precision_score(data.test_y, y_pred_gbc) 
+    # Recall 
+    recall_gbc = recall_score(data.test_y, y_pred_gbc) 
+    # F1-Score 
+    f1_gbc = f1_score(data.test_y, y_pred_gbc) 
+
+    print("The CM score gbc", cm_gbc )
+
+    print("the accuracy score gbc", accuracy_gbc)
+
+    print("the precision score gbc", precision_gbc)
+
+    print("the recall score gbc", recall_gbc)
+
+    print("f1 score gbc", f1_gbc)
+
+
+
+    models.lg.fit(data.train_X,data.train_y)
+
+    y_pred_lg = models.lg.predict(data.test_X)
+
+
+    cm_lg = confusion_matrix(data.test_y, y_pred_lg) 
+    # Accuracy 
+    accuracy_lg = accuracy_score(data.test_y, y_pred_lg) 
+    # Precision 
+    precision_lg = precision_score(data.test_y, y_pred_lg) 
+    # Recall 
+    recall_lg = recall_score(data.test_y, y_pred_lg) 
+    # F1-Score 
+    f1_lg = f1_score(data.test_y, y_pred_lg) 
+
+    print("The CM score gbc", cm_lg )
+
+    print("the accuracy score gbc", accuracy_lg)
+
+    print("the precision score gbc", precision_lg)
+
+    print("the recall score gbc", recall_lg)
+
+    print("f1 score gbc", f1_lg)
+
+
+
+
 if __name__== "__main__":
 
     train_test()
