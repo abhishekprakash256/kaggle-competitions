@@ -100,8 +100,6 @@ def train_test():
     models.make_models()
 
 
-    models.dst = DecisionTreeClassifier()
-
     models.dst.fit(data.train_X,data.train_y)
     y_pred_dst = models.dst.predict(data.test_X)
 
