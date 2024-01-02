@@ -91,7 +91,7 @@ def train_test():
 
     #load the datasets
     data = Data()
-    data.read_data(M_FILE_PATH_train_l,M_FILE_PATH_test_l)
+    data.read_data(L_FILE_PATH_train_l,L_FILE_PATH_test_l)
     data.data_prep()
     data.train_test_divider()
 
@@ -201,6 +201,8 @@ def train_test():
     print("the recall score gbc", recall_lg)
 
     print("f1 score gbc", f1_lg)
+
+
 
 
 
