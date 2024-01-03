@@ -19,3 +19,6 @@ M_FILE_PATH_test_l = "/Users/abhi/Datasets/titanic_dataset/test.csv"
 M_FILE_PATH_SUB_l = "/Users/abhi/Datasets/titanic_dataset/sample_submission.csv"
 
 
+#df = pd.read_csv(L_FILE_PATH_SUB_l)
+
+
