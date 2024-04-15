@@ -32,9 +32,18 @@ FILE_PATH_train_m = "/Users/abhi/Datasets/digit-recognizer/train.csv"
 PREDICTION_DATA_m = "/Users/abhi/Datasets/digit-recognizer/test.csv"
 
 
-df_train = pd.read_csv(FILE_PATH_train_m)
+df_train = pd.read_csv(FILE_PATH_train_m) #use this 
+
 df_predtion = pd.read_csv(PREDICTION_DATA_m)
 
 
-print(df_train)
-print(df_predtion)
+#split into the train and the test dataset 
+y = df_train["label"]
+
+X = df_train.drop("label", axis= 1)
+
+#train and test split 
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+
+print(y_train)
