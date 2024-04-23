@@ -32,9 +32,9 @@ FILE_PATH_train_m = "/Users/abhi/Datasets/digit-recognizer/train.csv"
 PREDICTION_DATA_m = "/Users/abhi/Datasets/digit-recognizer/test.csv"
 
 
-df_train = pd.read_csv(FILE_PATH_train_m) #use this 
+df_train = pd.read_csv(FILE_PATH_train_l) #use this 
 
-df_predtion = pd.read_csv(PREDICTION_DATA_m)
+df_predtion = pd.read_csv(PREDICTION_DATA_l)
 
 
 #split into the train and the test dataset 
@@ -55,15 +55,36 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_
 
 #take one row and stack one another 
 
-test = X_train.iloc[0][0:28]
+test = X_train.iloc[0][0:28].to_numpy().reshape(1,28)
+test2 = X_train.iloc[0][28:56].to_numpy().reshape(1,28)
+
+print(test.shape)
+print(test2.shape)
+
+combine = np.concatenate((test, test2), axis = 0)
 
 #zeros_array = np.zeros((1, 28))
-zeros_array = test.values
-zeros_array = zeros_array.reshape(1,28)
+#zeros_array = test.values
+#zeros_array = zeros_array.reshape(1,28)
 
-print(zeros_array)
+#print(combine.shape)
+
 
 """
 make a array and assign the value in the array and then we can use that array to train the model 
 """
 
+
+#make the loop for the combine the aarry 
+
+image_arr = []
+
+for i in range(0,757,28):
+    
+    row = X_train.iloc[0][i:i+28].to_numpy().reshape(1,28)
+
+    image_arr.append(row)
+
+image_arr = np.concatenate(image_arr, axis=0)
+
+print(image_arr)
