@@ -79,12 +79,20 @@ make a array and assign the value in the array and then we can use that array to
 
 image_arr = []
 
-for i in range(0,757,28):
-    
-    row = X_train.iloc[0][i:i+28].to_numpy().reshape(1,28)
+for index, row in X_train.iterrows():
+    row_segments = []
 
-    image_arr.append(row)
+    for i in range(0, 757, 28):
+        segment = row[i:i+28].to_numpy().reshape(1, 28)
+        row_segments.append(segment)
 
-image_arr = np.concatenate(image_arr, axis=0)
+    image_arr.append(np.concatenate(row_segments, axis=1))
 
-print(image_arr)
+# Convert image_arr to a numpy array
+image_arr = np.array(image_arr)
+
+
+print(image_arr[0].shape)
+
+#print(X_train)
+#print(y_train)
