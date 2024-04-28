@@ -32,9 +32,9 @@ FILE_PATH_train_m = "/Users/abhi/Datasets/digit-recognizer/train.csv"
 PREDICTION_DATA_m = "/Users/abhi/Datasets/digit-recognizer/test.csv"
 
 
-df_train = pd.read_csv(FILE_PATH_train_l) #use this 
+df_train = pd.read_csv(FILE_PATH_train_m) #use this 
 
-df_predtion = pd.read_csv(PREDICTION_DATA_l)
+df_predtion = pd.read_csv(PREDICTION_DATA_m)
 
 
 #split into the train and the test dataset 
@@ -75,28 +75,79 @@ make a array and assign the value in the array and then we can use that array to
 """
 
 
+
+
+#get the one row in array 
+
+
+one_row = X_train.iloc[0]
+#print(one_row)
+
 #make the loop for the combine the aarry 
 
-image_arr = []
 
-image_arr_combine = []
+#make an whole array of the numpy
 
+"""
+for i in range(0,757,28):
+
+    segment = one_row[i:i+28].to_numpy().reshape(1,28)
+
+    #print(segment.shape)
+
+    image_arr = np.append(image_arr, segment)
+
+    #image_arr.append(segment)
+
+#image_arr = np.array(image_arr)
+
+#print(image_arr.shape)
+"""
+
+
+
+
+full_data = np.empty((len(X_train), 28, 28))
+
+# Iterate through each row in X_train
 for index, row in X_train.iterrows():
+    if index >= len(full_data):
+        break
     
-    row_segments = []
+    # Reshape the row into a 28x28 array
+    segment = row.values.reshape(28, 28)
     
-    for i in range(0, 757, 28):
-        
-        segment = row[i:i+28].to_numpy().reshape(1, 28)
-        row_segments.append(segment)
+    # Assign segment to full_data
+    full_data[index] = segment
 
-        image_arr.append(np.concatenate(row_segments, axis=1))
+print(full_data.shape)
+
+
+
+
+"""
+full_data = np.array([])
+
+image_arr = np.array([])
+
+for index ,row in X_train.iterrows():
     
-# Convert image_arr to a numpy array
-image_arr = np.array(image_arr)
+    print(index)
+
+    for i in range(0,757,28):
+
+        segment = row[i:i+28].to_numpy().reshape(1,28)
+
+        #print(segment.shape)
+
+        image_arr = np.append(image_arr, segment)
+    
+    full_data = np.append(full_data,image_arr)
 
 
-print(image_arr[0].shape)
+print(full_data.shape)
+    
 
+"""
 #print(X_train)
 #print(y_train)
