@@ -12,10 +12,14 @@ from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, r
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.linear_model import LogisticRegression
+import torch.nn.functional as F
 #from xgboost.sklearn import XGBClassifier
 
 import torch as th 
 from torch import nn
+import torch.optim as optim
+
+
 
 #local cloud
 FILE_PATH_train_c = "/home/ubuntu/s3/digit-recognizer/train.csv"
@@ -46,6 +50,15 @@ X = df_train.drop("label", axis= 1)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
 
 
+#print(X_train)
+
+
+X_test = th.tensor(X_test.values)
+X_train = th.tensor(X_train.values)
+y_train = th.tensor(y_train.values)
+y_test = th.tensor(y_test.values)
+
+
 #print(X_train.head())
 #print(y_train.head())
 
@@ -55,8 +68,8 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_
 
 #take one row and stack one another 
 
-test = X_train.iloc[0][0:28].to_numpy().reshape(1,28)
-test2 = X_train.iloc[0][28:56].to_numpy().reshape(1,28)
+#test = X_train.iloc[0][0:28].to_numpy().reshape(1,28)
+#test2 = X_train.iloc[0][28:56].to_numpy().reshape(1,28)
 
 #print(test.shape)
 #print(test2.shape)
@@ -80,8 +93,13 @@ make a array and assign the value in the array and then we can use that array to
 #get the one row in array 
 
 
-one_row = X_train.iloc[0]
-#print(one_row)
+one_row = X_train[100]
+one_row = one_row.reshape(28,28)
+
+print(one_row)
+print(y_train[100])
+
+
 
 #make the loop for the combine the aarry 
 
@@ -108,22 +126,33 @@ for i in range(0,757,28):
 
 X_train_data = np.empty((len(X_train), 28, 28))
 
+"""
 # Iterate through each row in X_train
 for index, row in X_train.iterrows():
     
-    if index >= len(X_train_data):
-        break
+    #if index >= len(X_train_data):
+    #    break
     
     # Reshape the row into a 28x28 array
-    segment = row.values.reshape(28, 28)
-    
+
+    print(row)
+    #segment = row.values.reshape(28, 28)
+
+    #print(segment)
     # Assign segment to full_data
-    X_train_data[index] = segment
+    #X_train_data[index] = segment
+
+"""
+
+#X_train_data = th.tensor(X_train_data)
 
 
-print(X_train_data[0].shape)
+#print(X_train_data[1000])
 
-#print(y_train.shape)
+
+
+#print(y_train)
+
 
 #make model 
 
@@ -148,45 +177,74 @@ class SimpleModel(nn.Module):
 
 model = SimpleModel()
 
+
+
 # Assuming X_train_data[0] is a 28x28 NumPy array
 X_train_data_batch = np.expand_dims(X_train_data[0], axis=0)  # Add a batch dimension
 
-y_pred = model(th.tensor(X_train_data_batch, dtype = th.float32))  # Convert to torch tensor and pass to the model
+#y_pred = model(th.tensor(X_train_data_batch, dtype = th.float32))  # Convert to torch tensor and pass to the model
 
 #print(y_pred)
 
-EPOCHS = 1000
+def preprocess_input(image):
+    # Convert to torch tensor and add a batch dimension
+    return th.unsqueeze(th.tensor(image, dtype=th.float32), 0)
 
+EPOCHS = 10
+
+
+
+
+
+"""
 def train_and_test():
-    """
-    The funcition to train and test the model 
-    """
+ 
+    #The funcition to train and test the model 
 
-    loss_fn = nn.BCEWithLogitsLoss()
+    
+    #loss_fn = nn.BCEWithLogitsLoss()
 
     # Define the optimizer
-    optimizer = th.optim.SGD(params=model.parameters(), lr=0.1)
+    criterion = nn.CrossEntropyLoss()  # Use Cross Entropy Loss
+    optimizer = optim.Adam(model.parameters(), lr=0.001)
 
     #the loop for trainer
     for epoch in range(EPOCHS):
-        
+    
         model.train()
 
-        y_pred = model(X_train_data_batch)
+        for i in range(len(X_train_data)):
 
-        loss = loss_fn(y_pred.view(-1), y_train)
+            input_tensor = preprocess_input(X_train_data[i])
 
-        optimizer.zero_grad()
-        loss.backward()
-        optimizer.step()
+            y_pred = model(input_tensor)
 
-        model.eval()
-        with th.inference_mode():
-            test_pred = model(X_test)
-            test_loss = loss_fn(test_pred.view(-1), y_test)
-        
-        if epoch % 10 == 0:
-            print(f"Epoch {epoch}: Training Loss: {loss}, Test Loss: {test_loss}")
+            #y_true_tensor = th.tensor(y_train[i], dtype=th.long)
+
+            print("pred",y_pred)
+            print("train",y_train[i])
+
+            loss = F.cross_entropy(y_pred, y_pred)
+
+            print("loss",loss)
+
+            #print(y_pred)
+            #print(loss)
+
+            #optimizer.zero_grad()
+            #loss.backward()
+            #optimizer.step()
+
+            #model.eval()
+
+            #with th.inference_mode():
+                #test_pred = model(X_test[i])
+                #test_loss = loss_fn(test_pred.view(-1), y_test[i])
+
+            #if epoch % 10 == 0:
+                #print(f"Epoch {epoch}: Training Loss: {loss}, Test Loss: {test_loss}")
 
 
 train_and_test()
+
+"""
