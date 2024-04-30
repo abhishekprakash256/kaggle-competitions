@@ -18,6 +18,7 @@ import torch.nn.functional as F
 import torch as th 
 from torch import nn
 import torch.optim as optim
+from torch.utils.data import DataLoader
 
 
 
@@ -53,10 +54,10 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_
 #print(X_train)
 
 
-X_test = th.tensor(X_test.values)
-X_train = th.tensor(X_train.values)
-y_train = th.tensor(y_train.values)
-y_test = th.tensor(y_test.values)
+X_test = th.tensor(X_test.values).float()
+X_train = th.tensor(X_train.values).float()
+y_train = th.tensor(y_train.values).float()
+y_test = th.tensor(y_test.values).float()
 
 
 #print(X_train.head())
@@ -93,11 +94,13 @@ make a array and assign the value in the array and then we can use that array to
 #get the one row in array 
 
 
-one_row = X_train[100]
-one_row = one_row.reshape(28,28)
+one_row = X_train[99]
+one_row = one_row.reshape(1,28,28)
 
-print(one_row)
-print(y_train[100])
+#print(one_row)
+#print(y_train[99])
+
+
 
 
 
@@ -125,6 +128,7 @@ for i in range(0,757,28):
 
 
 X_train_data = np.empty((len(X_train), 28, 28))
+
 
 """
 # Iterate through each row in X_train
@@ -180,17 +184,43 @@ model = SimpleModel()
 
 
 # Assuming X_train_data[0] is a 28x28 NumPy array
-X_train_data_batch = np.expand_dims(X_train_data[0], axis=0)  # Add a batch dimension
+#X_train_data_batch = np.expand_dims(X_train_data[0], axis=0)  # Add a batch dimension
 
 #y_pred = model(th.tensor(X_train_data_batch, dtype = th.float32))  # Convert to torch tensor and pass to the model
 
 #print(y_pred)
 
-def preprocess_input(image):
-    # Convert to torch tensor and add a batch dimension
-    return th.unsqueeze(th.tensor(image, dtype=th.float32), 0)
 
 EPOCHS = 10
+
+"""
+
+y_pred = model(one_row)
+print(y_pred)
+
+print(y_train[99])
+
+y_true_tensor = th.tensor([y_train[99]]).long()   # Wrap y_train[99] in a tensor
+
+criterion = nn.CrossEntropyLoss() 
+loss = criterion(y_pred, y_true_tensor) 
+
+print(loss)
+"""
+
+#make a batch 
+
+batch_train_data = X_train[0:10].reshape(10,28,28)
+batch_test_data = y_train[0:10]
+
+
+#print(batch_train_data[3])
+#print(batch_test_data[3])
+
+
+#the batch training
+
+y_pred = model(batch_train_data)
 
 
 
