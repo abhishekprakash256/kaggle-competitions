@@ -2,23 +2,57 @@
 
 ### Description
 
-The repo has the code from the kaggle competations that I took part in. The folder have the name of the competition within there is the code. The data is handled, cleaned and prepared to be trained on the model. Multiple models are made to test on the results and the results are shown. The requirements with be give in the requirements.txt file and using a virtual env is recommended  to run the files. Always run the main.py file from the competition folder.
+The repo has the code from the Kaggle competitions that I took part in. The folders are named after the competitions, and within each folder, you will find the corresponding code. The data is handled, cleaned, and prepared for model training. Multiple models are implemented and tested, and the results are analyzed. The dependencies are listed in the `requirements.txt` file, and using a virtual environment is recommended to run the files. Always run the `main.py` file from the respective competition folder.
 
-**Modify the data file location as per needed**
+**Modify the data file location as needed.**
 
-
-
-### Things to add 
+### Enhancements to be Added
 
 ```
-make a json file for path handling
-use a libraray to find the type of os 
-add error handling 
-use a function to print 
+- Make a JSON file for path handling
+- Use a library to detect the OS type
+- Add error handling
+- Implement a function for printing
 ```
 
+## 📌 What You'll Learn
+- How to approach Kaggle competitions
+- Data preprocessing and feature engineering
+- Model training and evaluation
 
+## 🔧 Setup
+To get started, clone the repository and install dependencies:
 
- 
+```bash
+# Clone the repository
+git clone https://github.com/abhishekprakash256/kaggle-competitions.git
+cd kaggle-competitions
 
-  
+# Install dependencies
+pip install -r requirements.txt
+```
+
+## 📂 Repository Structure
+```
+kaggle-competitions/
+│── competition_name/   # Each competition's code folder
+│   ├── data/          # Dataset used
+│   ├── models/        # Trained models
+│   ├── main.py        # Main execution file
+│   ├── utils.py       # Helper functions
+│── requirements.txt   # Dependencies
+└── README.md          # This file
+```
+
+## 🚀 Running a Notebook
+Run Jupyter Notebook to explore and execute the solutions:
+
+```bash
+jupyter notebook
+```
+
+## 📚 Learning Resources
+- [Kaggle Learn](https://www.kaggle.com/learn)
+- [Kaggle Competitions](https://www.kaggle.com/competitions)
+
+Happy coding and good luck on Kaggle! 🚀
