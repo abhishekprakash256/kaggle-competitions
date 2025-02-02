@@ -25,7 +25,7 @@ To get started, clone the repository and install dependencies:
 
 ```bash
 # Clone the repository
-git clone https://github.com/abhishekprakash256/kaggle-competitions.git
+git clone git@github.com:abhishekprakash256/kaggle-competitions.git
 cd kaggle-competitions
 
 # Install dependencies
